@@ -1,3 +1,6 @@
+import Notiflix from 'notiflix';
+
+
 import { getImage } from "./image-api";
 
 const formEl = document.querySelector('.search-form');
@@ -16,7 +19,5 @@ function onFormSubmitHandler(evt) {
     const inputValue = searchQuery.value;
     console.log(inputValue);
 
-    getImage().then((obj) => console.log(obj)).catch(err => {
-        console.log('err')
-    });
+    getImage()
 }
