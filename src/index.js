@@ -19,8 +19,13 @@ const onFormSubmitHandler = async evt => {
 
   try {
     const { obj } = getImage(inputValue);
+    if (!obj) {
+      throw new Error();
+    }
     createMarkUp(obj);
     galleryEl.innerHTML = markUpImage;
+
+
     
     loadMoreBtnEl.classList.remove('is-hidden');
   }
