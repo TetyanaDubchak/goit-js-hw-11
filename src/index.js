@@ -8,42 +8,34 @@ const buttonEl = document.querySelector('.search-form button');
 const galleryEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.load-more');
 
-console.log(getImage(cat));
+console.log(getImage('cat'));
 
 const { searchQuery } = formEl.elements;
 const inputValue = searchQuery.value;
-
+const { data } = getImage(inputValue);
+console.log(data); 
 
 const onFormSubmitHandler = async evt => {
     evt.preventDefault();
 
   try {
-    const { obj } = getImage(inputValue);
-    if (!obj) {
+    
+    if (!data) {
       throw new Error();
     }
-    createMarkUp(obj);
+    await createMarkUp(data);
     galleryEl.innerHTML = markUpImage;
 
-
-    
     loadMoreBtnEl.classList.remove('is-hidden');
   }
   
   catch {
     Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
   }
-  
-    // getImage(inputValue).then(obj => {
-    //     console.log(obj)
-    //     createMarkUp(obj);
-    // }).catch(e => {
-    //   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-    // console.error(e)
-    // })
+
 }
 
-function createMarkUp(obj) {
+async function createMarkUp(obj) {
     const makePhotoMark = ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
     return `<div class="photo-card">
   <img class='photo-img' src="${webformatURL}" alt="${tags}" loading="lazy" />
@@ -63,7 +55,7 @@ function createMarkUp(obj) {
   </div>
 </div>`
     };
-  const arrayData = obj.data.hits;
+  const arrayData = data.hits;
   const markUpImage = arrayData.map(item => makePhotoMark(item)).join('');
     
 }
@@ -71,15 +63,13 @@ function createMarkUp(obj) {
 const onLoadMoreHandler = async () => {
   page += 1;
 
-  try {
-      const { obj } = getImage(inputValue);
-      
-    if(page === obj.data.totalHits) {
+  try { 
+    if(page === data.totalHits) {
       loadMoreBtnEl.classList.remove('is-hidden');
-      Notiflix.Notify.info('Sorry, there are no images matching your search query. Please try again.');
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
     }
     
-    galleryEl.insertAdjacentHTML('beforeend', createMarkUp(obj))
+    galleryEl.insertAdjacentHTML('beforeend', createMarkUp(data))
 
   } catch {
        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
@@ -92,3 +82,18 @@ const onLoadMoreHandler = async () => {
 formEl.addEventListener('submit', onFormSubmitHandler);
 
 formEl.addEventListener('click', onLoadMoreHandler);
+
+
+
+
+
+
+
+  
+    // getImage(inputValue).then(obj => {
+    //     console.log(obj)
+    //     createMarkUp(obj);
+    // }).catch(e => {
+    //   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    // console.error(e)
+    // })
