@@ -1,0 +1,60 @@
+.photo-card {
+flex-basis: calc((100% - 60px) / 4);
+height: auto;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    
+}
+
+.photo-img {
+    display: block;
+    width: 350px;
+    height: 220px;
+}
+
+.search-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-form input{
+    padding: 5px;
+    border-color: blueviolet;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+
+.search-form button {
+    background-color: blueviolet;
+    color: aliceblue;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.info {
+    display: flex;
+    text-align: center;
+}
+
+.info-item > b {
+    display: block;
+    font-size: 16px;
+    display: inline-block;
+    margin-bottom: 10px;
+}
+
+.info-item > span {
+    font-size: 14px;
+}
+
+.load-more {
+    background-color: blueviolet;
+    color: aliceblue;
+    padding: 5px;
+    border-radius: 3px;
+}
