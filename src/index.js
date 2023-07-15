@@ -1,99 +1,66 @@
-import Notiflix from 'notiflix';
+import { Notify, Report } from 'notiflix';
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 
 import { getImage, page } from "./image-api";
+import { refs } from './refs';
+import { createMarkUp } from './extra-func';
 
-const formEl = document.querySelector('.search-form');
-const buttonEl = document.querySelector('.search-form button');
-const galleryEl = document.querySelector('.gallery');
-const loadMoreBtnEl = document.querySelector('.load-more');
+refs.loadMoreBtnEl.style.display = 'none';
+refs.formEl.addEventListener('submit', onFormSubmitHandler);
 
-console.log(getImage('cat'));
+async function onFormSubmitHandler (evt) {
+  evt.preventDefault();
+  page = 1;
+  refs.galleryEl.innerHTML = '';
+  const inputValue = evt.target.elements.searchQuery.value.trim();
 
-const { searchQuery } = formEl.elements;
-const inputValue = searchQuery.value;
-const { data } = getImage(inputValue);
-console.log(data); 
-
-const onFormSubmitHandler = async evt => {
-    evt.preventDefault();
+  if (!inputValue) {
+    Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+    return
+  }
 
   try {
-    
-    if (!data) {
-      throw new Error();
-    }
-    await createMarkUp(data);
-    galleryEl.innerHTML = markUpImage;
+    const {hits, totalHits} = await getImage(inputValue);
+    createMarkUp(hits);
+    Notify.success(`Hooray! We found ${totalHits} images.`)
+    refs.loadMoreBtnEl.style.display = 'block';
 
-    loadMoreBtnEl.classList.remove('is-hidden');
+    const { height: cardHeight } = refs.galleryEl.firstElementChild.getBoundingClientRect();
+      window.scrollBy({
+        top: cardHeight * 2,
+        behavior: "smooth",
+    });
+    
+  } catch {
+    Notify.failure('Sorry, there are no images matching your search query. Please try again.');
   }
+
+}
+
+refs.loadMoreBtnEl.addEventListener('click', onLoadMoreHandler); 
+
+async function onLoadMoreHandler(evt) {
   
-  catch {
-    Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-  }
-
-}
-
-async function createMarkUp(obj) {
-    const makePhotoMark = ({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-    return `<div class="photo-card">
-  <img class='photo-img' src="${webformatURL}" alt="${tags}" loading="lazy" />
-  <div class="info">
-    <p class="info-item">
-      <b> Likes</b> <span>${likes}</span>
-    </p>
-    <p class="info-item">
-      <b> Views </b> <span>${views}</span>
-    </p>
-    <p class="info-item">
-      <b> Comments </b> <span> ${comments}</span>
-    </p>
-    <p class="info-item">
-      <b> Downloads </b> <span>${downloads}</span>
-    </p>
-  </div>
-</div>`
-    };
-  const arrayData = data.hits;
-  const markUpImage = arrayData.map(item => makePhotoMark(item)).join('');
+  const inputValue = refs.formEl.elements.searchQuery.value.trim();
+ 
+  try {
+    page += 1;
+    console.log(page);
+     
+    const { hits, totalHits } = await getImage(inputValue);
     
-}
-
-const onLoadMoreHandler = async () => {
-  page += 1;
-
-  try { 
-    if(page === data.totalHits) {
-      loadMoreBtnEl.classList.remove('is-hidden');
+      if(page === totalHits) {
+      refs.loadMoreBtnEl.style.display = 'none';
       Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
     }
     
-    galleryEl.insertAdjacentHTML('beforeend', createMarkUp(data))
+    createMarkUp(hits);
 
-  } catch {
-       Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+  } catch (err) {
+      Notify.failure('Sorry, there are no images matching your search query. Please try again.');
   }
 
 }
 
-
-
-formEl.addEventListener('submit', onFormSubmitHandler);
-
-formEl.addEventListener('click', onLoadMoreHandler);
-
-
-
-
-
-
-
-  
-    // getImage(inputValue).then(obj => {
-    //     console.log(obj)
-    //     createMarkUp(obj);
-    // }).catch(e => {
-    //   Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.');
-    // console.error(e)
-    // })

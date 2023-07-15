@@ -1,6 +1,9 @@
 .photo-card {
 flex-basis: calc((100% - 60px) / 4);
 height: auto;
+border-radius: 4px;
+box-shadow: 1px 14px 27px 0px rgba(20, 7, 7, 0.42);
+padding-top: 5px;
 }
 
 .gallery {
@@ -13,8 +16,10 @@ height: auto;
 
 .photo-img {
     display: block;
+    margin: 0 auto;
     width: 350px;
     height: 220px;
+    border-radius: 5px;
 }
 
 .search-form {
@@ -34,22 +39,26 @@ height: auto;
     color: aliceblue;
     padding: 5px;
     border-radius: 3px;
+    cursor: pointer;
 }
 
 .info {
     display: flex;
-    text-align: center;
+    justify-content: space-around;
 }
 
 .info-item > b {
     display: block;
     font-size: 16px;
-    display: inline-block;
+    display: block;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .info-item > span {
+    display: block;
     font-size: 14px;
+    text-align: center;
 }
 
 .load-more {
@@ -57,4 +66,8 @@ height: auto;
     color: aliceblue;
     padding: 5px;
     border-radius: 3px;
+    margin: 30px auto;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
 }
