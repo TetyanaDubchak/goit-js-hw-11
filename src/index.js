@@ -3,7 +3,7 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
-import { getImage, page } from "./image-api";
+import { getImage } from "./image-api";
 import { refs } from './refs';
 import { createMarkUp } from './extra-func';
 
