@@ -12,15 +12,3 @@ async function getImage(input, page) {
 
 export { getImage }
 
-
-
-
-// ${URL_BASE}?key=${API_KEY}&q=${userWord}&image_type=photo&orientation=horizontal&safesearch=true
-// function getImage() {
-//     fetch(`${URL_BASE}?key=${API_KEY}&q=cat&image_type=photo&orientation=horizontal&safesearch=true`).then(resp => {
-//         if (!resp.ok) {
-//             throw new Error(resp.statusText);
-//         }
-//         return resp.json();
-//     });
-// };

@@ -1,5 +1,4 @@
 import { Notify, Report } from 'notiflix';
-import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
@@ -8,9 +7,9 @@ import { refs } from './refs';
 import { createMarkUp } from './extra-func';
 
 refs.loadMoreBtnEl.style.display = 'none';
-refs.formEl.addEventListener('submit', onFormSubmitHandler);
-
 let page = 1;
+
+refs.formEl.addEventListener('submit', onFormSubmitHandler);
 
 async function onFormSubmitHandler(evt) {
   evt.preventDefault();
@@ -27,7 +26,8 @@ async function onFormSubmitHandler(evt) {
   try {
     const { hits, totalHits } = await getImage(inputValue, page);
     createMarkUp(hits);
-    console.dir(hits);
+  
+
     if (hits.length === 0) {
       Notify.failure('Sorry, there are no images matching your search query. Please try again.');
       refs.loadMoreBtnEl.style.display = 'none';
@@ -37,10 +37,10 @@ async function onFormSubmitHandler(evt) {
     Notify.success(`Hooray! We found ${totalHits} images.`)
 
     refs.loadMoreBtnEl.style.display = 'block';
-    // if (hits.length > 40) {
-    //     refs.loadMoreBtnEl.style.display = 'block';
-    // }
-    
+
+    if (hits.length <= 40) {
+        refs.loadMoreBtnEl.style.display = 'none';
+    }
 
     const { height: cardHeight } = refs.galleryEl.firstElementChild.getBoundingClientRect();
       window.scrollBy({
@@ -53,6 +53,8 @@ async function onFormSubmitHandler(evt) {
   }
 
 }
+
+
 
 refs.loadMoreBtnEl.addEventListener('click', onLoadMoreHandler); 
 
@@ -72,7 +74,7 @@ async function onLoadMoreHandler(evt) {
         behavior: "smooth",
     });
 
-      if(hits.length === totalHits) {
+      if(page === Math.ceil(totalHits/40)) {
       refs.loadMoreBtnEl.style.display = 'none';
         Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         return
