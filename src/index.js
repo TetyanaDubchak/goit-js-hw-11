@@ -38,7 +38,7 @@ async function onFormSubmitHandler(evt) {
 
     refs.loadMoreBtnEl.style.display = 'block';
 
-    if (hits.length <= 40) {
+    if (totalHits < 40) {
         refs.loadMoreBtnEl.style.display = 'none';
     }
 
@@ -64,7 +64,9 @@ async function onLoadMoreHandler(evt) {
  
   try {
     page += 1;
-     
+    
+          
+
     const { hits, totalHits } = await getImage(inputValue, page);
     createMarkUp(hits);
 
@@ -74,13 +76,13 @@ async function onLoadMoreHandler(evt) {
         behavior: "smooth",
     });
 
-      if(page === Math.ceil(totalHits/40)) {
+    if(page === Math.ceil(totalHits/40)) {
       refs.loadMoreBtnEl.style.display = 'none';
-        Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
+      Notiflix.Notify.info("We're sorry, but you've reached the end of search results.");
         return
     }
 
-  } catch (err) {
+  } catch  {
       Notify.failure('Sorry, there are no images matching your search query. Please try again.');
   }
 
