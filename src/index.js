@@ -3,14 +3,14 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
-import { getImage, page} from "./image-api";
+import { getImage} from "./image-api";
 import { refs } from './refs';
 import { createMarkUp } from './extra-func';
 
 refs.loadMoreBtnEl.style.display = 'none';
 refs.formEl.addEventListener('submit', onFormSubmitHandler);
 
-
+let page = 1;
 
 async function onFormSubmitHandler (evt) {
   evt.preventDefault();
@@ -24,7 +24,7 @@ async function onFormSubmitHandler (evt) {
   }
 
   try {
-    const {hits, totalHits} = await getImage(inputValue);
+    const {hits, totalHits} = await getImage(inputValue, page);
     createMarkUp(hits);
     Notify.success(`Hooray! We found ${totalHits} images.`)
     refs.loadMoreBtnEl.style.display = 'block';
@@ -51,7 +51,7 @@ async function onLoadMoreHandler(evt) {
     page += 1;
     console.log(page);
      
-    const { hits, totalHits } = await getImage(inputValue);
+    const { hits, totalHits } = await getImage(inputValue, page);
     
       if(page === totalHits) {
       refs.loadMoreBtnEl.style.display = 'none';
