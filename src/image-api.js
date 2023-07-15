@@ -3,7 +3,6 @@ import axios from "axios";
 const URL_BASE = 'https://pixabay.com/api/';
 const API_KEY = '38155238-6cbc32329127063edf5d1a6f9'
 
-
 let page = 1;
 async function getImage(input) {
  
@@ -11,7 +10,7 @@ async function getImage(input) {
     return data;
 }
 
-export { getImage }
+export { getImage, page }
 
 
 

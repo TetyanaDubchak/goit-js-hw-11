@@ -3,12 +3,14 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 
-import { getImage } from "./image-api";
+import { getImage, page} from "./image-api";
 import { refs } from './refs';
 import { createMarkUp } from './extra-func';
 
 refs.loadMoreBtnEl.style.display = 'none';
 refs.formEl.addEventListener('submit', onFormSubmitHandler);
+
+
 
 async function onFormSubmitHandler (evt) {
   evt.preventDefault();
