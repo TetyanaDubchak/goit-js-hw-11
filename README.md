@@ -9,16 +9,16 @@ ImageSearcher is a web application that enables users to search for a wide varie
 
 
 ## Demo
-Check out the live demo of ImageSearcher at tetyanadubchak.github.io/goit-js-hw-11/.
+Check out the live demo of ImageSearcher at https://tetyanadubchak.github.io/goit-js-hw-11/.
 
 ## Usage
 
-<liOn the homepage, you'll find a search bar where you can enter your image search query.></li>
+<li>On the homepage, you'll find a search bar where you can enter your image search query.</li>
 <li>Press Enter or click on the "Search" button to initiate the search.</li>
 <li>Click on any image to view a larger preview along with additional information about the image.</li>
 <li>Use pagination to navigate to other pages of the search results.</li>
 
-##Technologies
+## Technologies
 ImageSearcher is built using the following technologies:
 
 <li>Frontend: JS, HTML, CSS</li>
